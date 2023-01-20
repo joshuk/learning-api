@@ -1,0 +1,38 @@
+version: '3.1'
+
+services:
+  db:
+    image: mariadb:latest
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mono
+      MYSQL_USER: mono
+      MYSQL_PASSWORD: mono
+    networks:
+      - mono
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - mono
+
+  php:
+    image: php-pdo
+    ports:
+      - 80:80
+    volumes:
+      - ./:/var/www/html/
+    networks:
+      - mono
+
+networks:
+  mono:
+volumes:
+  db_data:
+
